@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Quiz</title>
+    <link href="assets/style/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <section class="container">
+            <div class="info">
+                <a id="high-scores">view high scores</a>
+                <div>Time: <span id="time-remaining">75</span></div>
+            </div>
+
+            <div class="start" data-state="visible" >
+                <h1>Coding Quiz Challenge</h1>
+                <p>try to answer the following code-related questions within the time limit.<br>
+                keep in mid the incorrect answers will penalize your score/time<br>
+                by ten seconds</p>
+                <input type="button" value="Start Quiz" class="btn" id="start-button">
+            </div>
+
+            <div class="left-align quiz" data-state="hidden" style="display: none;">
+                <h2 class="questions">Commonly used data types DO Not include: </h1>
+                <input type="button" value="1. string" class="btn">
+                <input type="button" value="2. booleans" class="btn">
+                <input type="button" value="3. alerts" class="btn">
+                <input type="button" value="4. numbers" class="btn">
+            </div>
+
+            <div class="left-align initial" data-state="hidden" style="display: none;">
+                <h2>All done!</h1>
+                <p>Your final score is <span id="score">22</span><br>
+                Enter initials: <input id="init" type="text" name="inital"> <input id="submit "type="submit" value="submit" class="btn"></p>
+            </div>
+
+            <div class="left-align high-scores" data-state="hidden" style="display: none;">
+                <h2>High scores</h1>
+                <input type="text" value="1. AB - 22" ><br>
+                <input type="submit" value="Go back" class="btn" >
+                <input type="submit" value="Clear high scores" class="btn" >
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

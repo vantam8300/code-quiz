@@ -1,0 +1,89 @@
+:root {
+    --btn_color: rgb(52, 21, 110);
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    line-height: 1;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* outter box */
+.container {
+    line-height: 1.5;
+    padding: 1%;
+    width: 90%;
+    margin: 10% auto;
+    border: 3px solid #000;
+    text-align: center;
+    font-size: 25px;
+}
+
+.container h2 {
+    margin: 0;
+}
+
+/* infomation section*/
+.info a {
+    color: rgb(234, 34, 194);
+}
+
+.container .info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/*  */
+.btn {
+    padding: 1%;
+    font-size: 25px;
+    color: #fff;
+    background-color: var(--btn_color);
+    border-radius: 10px;
+    width: 20%;
+}
+
+.left-align {
+    margin: 5% 20%;
+    text-align: left;
+}
+
+/* quiz section */
+
+.quiz input {
+    display: flex;
+    flex-direction: column;
+    margin: 1% 0;
+    width: 35%;
+    text-align: left;
+}
+
+/* initial section */
+
+.initial input {
+    text-align: center;
+    height: auto;
+    font-size: 16px;
+    
+}
+
+#init {
+    border: 3px solid rgb(65, 130, 205);
+}
+
+
+
+/* high scores section */
+.high-scores input{
+    width: auto;
+    text-align: center;
+    height: auto;
+    font-size: 16px;
+}
