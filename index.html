@@ -12,8 +12,8 @@
     <main>
         <section class="container">
             <div class="info">
-                <a id="high-scores">view high scores</a>
-                <div>Time: <span id="time-remaining">75</span></div>
+                <a id="highScoresView">view high scores</a>
+                <div>Time: <span id="timer">0</span></div>
             </div>
 
             <div class="start" data-state="visible" >
@@ -21,31 +21,30 @@
                 <p>try to answer the following code-related questions within the time limit.<br>
                 keep in mid the incorrect answers will penalize your score/time<br>
                 by ten seconds</p>
-                <input type="button" value="Start Quiz" class="btn" id="start-button">
+                <input type="button" value="Start Quiz" class="btn" id="start-btn">
             </div>
 
             <div class="left-align quiz" data-state="hidden" style="display: none;">
-                <h2 class="questions">Commonly used data types DO Not include: </h1>
-                <input type="button" value="1. string" class="btn">
-                <input type="button" value="2. booleans" class="btn">
-                <input type="button" value="3. alerts" class="btn">
-                <input type="button" value="4. numbers" class="btn">
+            
             </div>
 
             <div class="left-align initial" data-state="hidden" style="display: none;">
-                <h2>All done!</h1>
+                <h2>All done!</h2>
                 <p>Your final score is <span id="score">22</span><br>
-                Enter initials: <input id="init" type="text" name="inital"> <input id="submit "type="submit" value="submit" class="btn"></p>
+                Enter initials: <input id="init" type="text" name="inital"> <input id="submit"type="submit" value="submit" class="btn"></p>
             </div>
 
             <div class="left-align high-scores" data-state="hidden" style="display: none;">
-                <h2>High scores</h1>
-                <input type="text" value="1. AB - 22" ><br>
-                <input type="submit" value="Go back" class="btn" >
-                <input type="submit" value="Clear high scores" class="btn" >
+                <h2>High scores</h2>
+                <ol class="high-scores-list">
+                    <li>AB-22</li>
+                </ol>
+                <input type="submit" id="goBackBtn" value="Go back" class="btn" >
+                <input type="submit" id="clearBtn"value="Clear high scores" class="btn" >
             </div>
         </section>
     </main>
+    <script src="./assets/js/script.js"></script>
 </body>
 
 </html>
