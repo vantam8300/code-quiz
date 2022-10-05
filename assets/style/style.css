@@ -81,6 +81,7 @@ body {
 }
 
 #init {
+    text-align: left;
     border: 3px solid rgb(65, 130, 205);
 }
 

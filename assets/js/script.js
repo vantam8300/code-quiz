@@ -6,9 +6,11 @@ var startDiv = document.querySelector(".start");
 
 var quizDiv = document.querySelector(".quiz");
 
-var viewHighScoresEl = document.querySelector("#highScoresView");
-
 var highScoreDiv = document.querySelector(".high-scores");
+
+var initalDiv = document.querySelector(".initial");
+
+var viewHighScoresEl = document.querySelector("#highScoresView");
 
 var highScoresList = document.querySelector(".high-scores-list");
 
@@ -18,33 +20,40 @@ var clearBtn = document.querySelector("#clearBtn");
 
 var submitBtn = document.querySelector("#submit");
 
+var scoreEl = document.querySelector("#score");
+
 var questions = [
-    {question:"Commonly used data types DO NOT include:", answers:["Strings","Booleans","Alerts","Numbers"], correctAnwer: 3},
-    {question:"Arrays in JavaScript can be used to store:", answers:["Numbers and Strings","Other Arrays","Booleans","All of the Above"], correctAnwer: 4},
-    {question:"String values must be enclosed within ____ when being assigned to variables", answers:["Commas","Curly Brackets","Quotes","Parenthesis"], correctAnwer: 3},
-    {question:"The condition of an if/else statement is enclosed with:", answers:["Quotes","Curly Brackets","Parenthesis","Square Brackets"], correctAnwer: 3}
+    { question: "Commonly used data types DO NOT include:", answers: ["Strings", "Booleans", "Alerts", "Numbers"], correctAnwer: "Alerts" },
+    { question: "Arrays in JavaScript can be used to store:", answers: ["Numbers and Strings", "Other Arrays", "Booleans", "All of the Above"], correctAnwer: "All of the Above" },
+    { question: "String values must be enclosed within ____ when being assigned to variables", answers: ["Commas", "Curly Brackets", "Quotes", "Parenthesis"], correctAnwer: "Quotes" },
+    { question: "The condition of an if/else statement is enclosed with:", answers: ["Quotes", "Curly Brackets", "Parenthesis", "Square Brackets"], correctAnwer: "Parenthesis" }
 ];
 
-var questionIndex = 0; //index of current question
-
+let questionIndex = 0; //index of current question
+let timeInterval
+let timeLeft = 75;
 function startTime() {
     // start counting down
-    var timeLeft = 75;
-    var timeInterval = setInterval(function() {
+    
+    timeInterval = setInterval(function () {
         if (timeLeft >= 1) {
             timeLeft--;
             timerEl.textContent = timeLeft;
-            
-         } else {
-            // end of the quiz
-            clearInterval(timeInterval);
-            
+
+        } else {
+            // when time is over. End of the quiz
+            endOfQuiz()
+
         }
-    },1000);
+    }, 1000);
 
 }
 
 function startQuiz() {
+    // reset time bank and question Index if user want to do the quiz again
+    questionIndex = 0;
+    timeLeft = 75;
+
     //start counting down
     startTime();
 
@@ -53,13 +62,13 @@ function startQuiz() {
 
 function renderQuiz() {
     //display quiz and hide starting code
-    if(quizDiv.dataset.state == "hidden"){
-        
+    if (quizDiv.dataset.state == "hidden") {
+
         startDiv.setAttribute("style", "display: none;")
-        quizDiv.setAttribute("style","display: block;")
+        quizDiv.setAttribute("style", "display: block;")
 
         // disable view high scores link during the quiz
-        viewHighScoresEl.setAttribute("style","pointer-events: none;")
+        viewHighScoresEl.setAttribute("style", "pointer-events: none;")
     }
 
     // adding question to the page
@@ -72,7 +81,7 @@ function renderQuiz() {
     quizDiv.appendChild(question);
 
     // adding answers to the page 
-    for (var i=0; i<currentQuestion.answers.length; i++) {
+    for (var i = 0; i < currentQuestion.answers.length; i++) {
         var answer = document.createElement("input")
         answer.setAttribute("type", "button");
         answer.setAttribute("class", "btn");
@@ -80,43 +89,74 @@ function renderQuiz() {
         quizDiv.appendChild(answer);
     }
 
-    // display whether user anwser correctly or not
-    var result = document.createElement("div");
-    result.setAttribute("class", "correct-answer");
-    
-    if (true) {
-        result.textContent = "Correct!";
-    } else {
-        result.textContent = "Wrong!";
+}
+
+function endOfQuiz(){
+    // display the initial form and hide the quiz when the quiz ended
+    quizDiv.setAttribute("style", "display: none;")
+    initalDiv.setAttribute("style", "display: block;")
+
+    clearInterval(timeInterval); // stop the timer
+
+    scoreEl.textContent = timeLeft; // display the score
+
+    // enable "view High Score" link
+    viewHighScoresEl.setAttribute("style", "pointer-events: auto;")
+}
+
+quizDiv.addEventListener("click", function (event) {
+
+    var element = event.target;
+    if (element.matches("input") === true) {
+        // remove previous question when user selected answer
+        quizDiv.innerHTML = "";
+        var currentQuestion = questions[questionIndex];
+        // render next question
+        questionIndex++;
+
+        if (questionIndex == questions.length) { //reach the last question
+            endOfQuiz()
+
+        } else {
+            // there still be some questions in list
+            renderQuiz()
+
+            // adding correct answer of the previous question
+            var result = document.createElement("div");
+            result.setAttribute("class", "correct-answer");
+            if (element.value === currentQuestion.correctAnwer) {
+                result.textContent = "Correct!";
+            } else {
+                timeLeft -= 10; // subtract 10 second if user gets wrong answer
+                result.textContent = "Wrong!"
+            }
+            quizDiv.appendChild(result);
+        }
+
     }
-    quizDiv.appendChild(result);
-
-}
-
-function checkAnswer() {
-
-}
+});
 
 // View High Scores link is clicked
-viewHighScoresEl.addEventListener("click", function() {
-    startDiv.setAttribute("style", "display: none;")
-    highScoreDiv.setAttribute("style","display: block;");
+viewHighScoresEl.addEventListener("click", function () {
+    startDiv.setAttribute("style", "display: none;");
+    initalDiv.setAttribute("style", "display: none;");
+    highScoreDiv.setAttribute("style", "display: block;");
 });
 
 
 // Go Back button is clicked
-goBackBtn.addEventListener("click", function() {
+goBackBtn.addEventListener("click", function () {
     startDiv.setAttribute("style", "display: block;")
-    highScoreDiv.setAttribute("style","display: none;");
+    highScoreDiv.setAttribute("style", "display: none;");
 });
 
 // Clear button is click
-clearBtn.addEventListener("click", function() {
+clearBtn.addEventListener("click", function () {
     highScoresList.textContent = "";
 });
 
 // Submit button is clicked
-submitBtn.addEventListener("click", function() {
+submitBtn.addEventListener("click", function () {
     var initial = document.querySelector("#init").value;
     localStorage.setItem("initials", initial);
 
