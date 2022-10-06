@@ -32,9 +32,18 @@ var questions = [
 let questionIndex = 0; //index of current question
 let timeInterval
 let timeLeft = 75;
+
+// get data from localStorage if it is empty create empty array
+let records;
+if (!localStorage.getItem("records")) {
+    records = []; 
+} else {
+    records = JSON.parse(localStorage.getItem("records"))
+}
+
 function startTime() {
     // start counting down
-    
+
     timeInterval = setInterval(function () {
         if (timeLeft >= 1) {
             timeLeft--;
@@ -67,6 +76,10 @@ function renderQuiz() {
         startDiv.setAttribute("style", "display: none;")
         quizDiv.setAttribute("style", "display: block;")
 
+        //update data-state
+        startDiv.dataset.state = "hidden";
+        quizDiv.dataset.state = "visible";
+
         // disable view high scores link during the quiz
         viewHighScoresEl.setAttribute("style", "pointer-events: none;")
     }
@@ -91,10 +104,14 @@ function renderQuiz() {
 
 }
 
-function endOfQuiz(){
+function endOfQuiz() {
     // display the initial form and hide the quiz when the quiz ended
     quizDiv.setAttribute("style", "display: none;")
     initalDiv.setAttribute("style", "display: block;")
+
+    // update data-state
+    quizDiv.dataset.state = "hidden";
+    initalDiv.dataset.state = "visible";
 
     clearInterval(timeInterval); // stop the timer
 
@@ -136,30 +153,61 @@ quizDiv.addEventListener("click", function (event) {
     }
 });
 
+function renderHighScore() {
+    highScoresList.innerHTML = "";
+    // hide initial session and show high score session
+    initalDiv.setAttribute("style", "display: none;");
+    highScoreDiv.setAttribute("style", "display: block;");
+
+    // update data-state
+    initalDiv.dataset.state = "hidden";
+    highScoreDiv.dataset.state = "visible";
+
+    for (var i = 0; i < records.length; i++) {
+        var newRecord = document.createElement("li");
+        newRecord.textContent = records[i];
+        highScoresList.appendChild(newRecord);
+    }
+
+}
+
 // View High Scores link is clicked
 viewHighScoresEl.addEventListener("click", function () {
     startDiv.setAttribute("style", "display: none;");
     initalDiv.setAttribute("style", "display: none;");
     highScoreDiv.setAttribute("style", "display: block;");
+    renderHighScore();
 });
 
 
 // Go Back button is clicked
 goBackBtn.addEventListener("click", function () {
-    startDiv.setAttribute("style", "display: block;")
+    startDiv.setAttribute("style", "display: block;");
     highScoreDiv.setAttribute("style", "display: none;");
 });
 
 // Clear button is click
 clearBtn.addEventListener("click", function () {
+    localStorage.setItem("records", "");
+    records = [];
     highScoresList.textContent = "";
 });
 
 // Submit button is clicked
 submitBtn.addEventListener("click", function () {
-    var initial = document.querySelector("#init").value;
-    localStorage.setItem("initials", initial);
 
+    // save record
+    var initial = document.querySelector("#init");
+    var score = scoreEl.textContent;
+    var record = initial.value + " - " + score
+    records.push(record);
+    localStorage.setItem("records", JSON.stringify(records));
+
+    // clear text field after submit value
+    initial.value = " ";
+
+
+    renderHighScore();
 });
 
 // start button is clicked
