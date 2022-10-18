@@ -18,6 +18,10 @@ body {
     background-color: rgb(231, 152, 229);
 }
 
+.btn:hover ~ div{
+    display: none;
+}
+
 /* outter box */
 .container {
     line-height: 1.5;
